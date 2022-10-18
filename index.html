@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Form with password</title>
+          <link rel="stylesheet" href="style.css">
+
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+          <script src="index.js"></script>
+
+</head>
+</head>
+
+<body>
+          <form>
+                    <img src="user.png" alt="reload">
+                    <div class="input-box">
+                              <span><i class="fa fa-user"></i></span>
+                              <input type="text" placeholder="User Name" required>
+                    </div>
+                    <div class="input-box">
+                              <span><i class="fa fa-envelope-o"></i></span>
+                              <input type="email" placeholder="Email ID" required>
+                    </div>
+                    <div class="input-box">
+                              <span><i class="fa fa-key"></i></span>
+                              <input type="password" id="password" placeholder="Password" required>
+                    </div>
+                    <button type="submit"><i class="fa fa-sign-in"></i></span>Register Now</button>
+          </form>
+</body>
+
+<script type="text/javascript">
+          $(function () {
+                    $("#password").passwordStrength();
+          });
+</script>
+
+</html>
