@@ -1,4 +1,15 @@
-$(function() {
+/**
+ * Password Strength Calculator Plugin
+ * 
+ * A jQuery plugin that calculates and displays password strength in real-time
+ * 
+ * @author Rajjit Laishram
+ * @year 2026
+ * @license MIT
+ * @version 2.0.0
+ */
+
+$(function () {
     "use strict";
 
     function PasswordStrengthCalculator() {
@@ -23,7 +34,7 @@ $(function() {
             var containsSymbol = false,
                 symbols = "-!§$%&/()=?.:,~;'#+-/*\\|{}[]_<>\"".split("");
 
-            $.each(symbols, function(index, symbol) {
+            $.each(symbols, function (index, symbol) {
                 if (value.indexOf(symbol) > -1) {
                     containsSymbol = true;
 
@@ -40,7 +51,7 @@ $(function() {
         }
 
         return {
-            calculate: function(value, points) {
+            calculate: function (value, points) {
                 var score = value.length * points.forEachCharacter;
 
                 if (passwordContainsSpaces(value)) { score += countSpaces(value) * points.forEachSpace; }
@@ -67,7 +78,7 @@ $(function() {
         }
 
         return {
-            refresh: function(score) {
+            refresh: function (score) {
                 if (score > 0) {
                     $indicator.css("display", settings.indicatorDisplayType);
                 } else {
@@ -75,7 +86,7 @@ $(function() {
                 }
 
                 var strengthClass = getStrengthClass(score);
-                $.each(settings.strengthClassNames, function(index, value) {
+                $.each(settings.strengthClassNames, function (index, value) {
                     $indicator.removeClass(value.name);
                 });
                 $indicator.addClass(strengthClass.name);
@@ -125,7 +136,7 @@ $(function() {
         },
 
         methods = {
-            init: function(options) {
+            init: function (options) {
                 var settings = $.extend({}, defaults, options),
                     $input = $(this),
                     $indicator = getIndicatorElement($input, settings),
@@ -136,7 +147,7 @@ $(function() {
                 return $input;
             },
 
-            calculate: function(value, options) {
+            calculate: function (value, options) {
                 var settings = $.extend(defaults, options);
 
                 if (!calculator) {
@@ -146,7 +157,7 @@ $(function() {
                 return calculator.calculate(value, settings.points);
             },
 
-            defaults: function() {
+            defaults: function () {
                 return defaults;
             }
         };
@@ -158,7 +169,7 @@ $(function() {
     }
 
     function setupAutomaticIndicatorRefresh(indicator, $input, settings) {
-        var refresh = function() {
+        var refresh = function () {
             var password = $input.val(),
                 score = methods.calculate(password, settings);
 
@@ -168,7 +179,7 @@ $(function() {
         $input.on("keyup", refresh);
     }
 
-    $.fn.passwordStrengthIndicator = $.fn.passwordStrength = function(method) {
+    $.fn.passwordStrengthIndicator = $.fn.passwordStrength = function (method) {
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         }
@@ -177,6 +188,6 @@ $(function() {
             return methods.init.apply(this, arguments);
         }
 
-        $.error("Method " +  method + " does not exist on jQuery.passwordStrength");
+        $.error("Method " + method + " does not exist on jQuery.passwordStrength");
     };
 });

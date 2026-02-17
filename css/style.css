@@ -1,0 +1,473 @@
+/*
+ * Form Strength - Password Strength Validator
+ * Author: Rajjit Laishram
+ * Year: 2026
+ * Description: Modern registration form with floating notification indicator
+ */
+
+/* ============================================
+   CSS RESET & BASE STYLES
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   MAIN CONTAINER
+   ============================================ */
+
+main {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   FORM STYLES
+   ============================================ */
+
+form {
+  width: 100%;
+  background: #ffffff;
+  padding: 50px 40px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  position: relative;
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+form img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  object-fit: cover;
+  border: 4px solid #f0f0f0;
+  transition: transform 0.3s ease;
+}
+
+form img:hover {
+  transform: scale(1.05);
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #718096;
+  margin-bottom: 35px;
+  font-weight: 400;
+}
+
+/* ============================================
+   INPUT BOXES
+   ============================================ */
+
+.input-box {
+  margin: 20px auto;
+  width: 100%;
+  position: relative;
+}
+
+.input-box input {
+  width: 100%;
+  height: 55px;
+  border: 2px solid #e2e8f0;
+  background: #f7fafc;
+  padding-left: 55px;
+  padding-right: 20px;
+  font-size: 15px;
+  color: #2d3748;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.input-box input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #667eea;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+.input-box input::placeholder {
+  color: #a0aec0;
+  font-weight: 400;
+}
+
+.input-box span {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 18px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.input-box span .fa {
+  color: #667eea;
+  font-size: 18px;
+}
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
+
+button {
+  width: 100%;
+  height: 55px;
+  margin: 30px auto 0;
+  display: block;
+  color: #fff;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 15px rgba(102, 126, 234, 0.4);
+}
+
+button .fa {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+/* ============================================
+   PASSWORD STRENGTH NOTIFICATION
+   ============================================ */
+
+.password-strength-indicator {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  min-width: 280px;
+  padding: 20px 25px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border-left: 5px solid #cbd5e0;
+}
+
+.password-strength-indicator.hidden {
+  opacity: 0;
+  transform: translateX(400px);
+  pointer-events: none;
+}
+
+.password-strength-indicator.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.password-strength-indicator::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  border-radius: 16px 0 0 16px;
+  transition: background 0.5s ease;
+}
+
+.password-strength-indicator .strength-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #718096;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.password-strength-indicator .strength-title i {
+  font-size: 14px;
+}
+
+.password-strength-indicator .strength-value {
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  transition: color 0.5s ease;
+}
+
+.password-strength-indicator .strength-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.password-strength-indicator .strength-bar-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 8px;
+  transition: width 0.5s ease, background 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.password-strength-indicator .strength-bar-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+/* Strength Level Styles */
+.password-strength-indicator.very-weak .strength-bar-fill {
+  width: 20%;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.password-strength-indicator.very-weak .strength-value {
+  color: #ef4444;
+}
+
+.password-strength-indicator.very-weak {
+  border-left-color: #ef4444;
+}
+
+.password-strength-indicator.weak .strength-bar-fill {
+  width: 40%;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+}
+
+.password-strength-indicator.weak .strength-value {
+  color: #f97316;
+}
+
+.password-strength-indicator.weak {
+  border-left-color: #f97316;
+}
+
+.password-strength-indicator.mediocre .strength-bar-fill {
+  width: 60%;
+  background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+}
+
+.password-strength-indicator.mediocre .strength-value {
+  color: #eab308;
+}
+
+.password-strength-indicator.mediocre {
+  border-left-color: #eab308;
+}
+
+.password-strength-indicator.strong .strength-bar-fill {
+  width: 80%;
+  background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+}
+
+.password-strength-indicator.strong .strength-value {
+  color: #84cc16;
+}
+
+.password-strength-indicator.strong {
+  border-left-color: #84cc16;
+}
+
+.password-strength-indicator.very-strong .strength-bar-fill {
+  width: 100%;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.password-strength-indicator.very-strong .strength-value {
+  color: #22c55e;
+}
+
+.password-strength-indicator.very-strong {
+  border-left-color: #22c55e;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablets and small desktops */
+@media screen and (max-width: 768px) {
+  form {
+    padding: 40px 30px;
+  }
+
+  form img {
+    width: 75px;
+    height: 75px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .input-box input {
+    height: 50px;
+    font-size: 14px;
+  }
+
+  button {
+    height: 50px;
+    font-size: 13px;
+  }
+
+  .password-strength-indicator {
+    min-width: 250px;
+    bottom: 20px;
+    right: 20px;
+    padding: 18px 22px;
+  }
+
+  .password-strength-indicator .strength-value {
+    font-size: 18px;
+  }
+}
+
+/* Mobile devices */
+@media screen and (max-width: 480px) {
+  body {
+    padding: 15px;
+  }
+
+  main {
+    max-width: 100%;
+  }
+
+  form {
+    padding: 35px 25px;
+    border-radius: 15px;
+  }
+
+  form img {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    margin-bottom: 25px;
+  }
+
+  .input-box {
+    margin: 15px auto;
+  }
+
+  .input-box input {
+    height: 48px;
+    font-size: 14px;
+    padding-left: 50px;
+  }
+
+  button {
+    height: 48px;
+    font-size: 13px;
+    margin-top: 20px;
+  }
+
+  /* Mobile: Bottom notification */
+  .password-strength-indicator {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    min-width: auto;
+    width: calc(100% - 30px);
+    padding: 16px 20px;
+    transform: translateY(200px);
+  }
+
+  .password-strength-indicator.visible {
+    transform: translateY(0);
+  }
+
+  .password-strength-indicator .strength-value {
+    font-size: 16px;
+  }
+
+  .password-strength-indicator .strength-title {
+    font-size: 11px;
+  }
+}

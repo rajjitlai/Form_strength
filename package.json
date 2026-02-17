@@ -1,0 +1,47 @@
+{
+  "name": "form-strength-validator",
+  "version": "2.0.0",
+  "description": "A modern, responsive registration form with real-time password strength validation",
+  "main": "index.html",
+  "scripts": {
+    "start": "echo 'Opening index.html...' && start index.html",
+    "dev": "echo 'No build process required. Open index.html in your browser.'",
+    "test": "echo 'No automated tests configured yet.'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rajjitlai/Form_strength.git"
+  },
+  "keywords": [
+    "password",
+    "strength",
+    "validator",
+    "form",
+    "validation",
+    "registration",
+    "jquery",
+    "responsive",
+    "html5",
+    "css3",
+    "javascript"
+  ],
+  "author": {
+    "name": "Rajjit Laishram",
+    "url": "https://github.com/rajjitlai"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rajjitlai/Form_strength/issues"
+  },
+  "homepage": "https://github.com/rajjitlai/Form_strength#readme",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not dead"
+  ]
+}
